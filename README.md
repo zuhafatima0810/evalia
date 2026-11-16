@@ -211,8 +211,8 @@ Your uploaded CSV file should contain student identifier columns and numerical m
 ### Sample CSV Structure:
 ```csv
 Student_ID,Name,Class,Year,Semester,Python (4),Data Mining (3),DAA (4),Web Programming (3)
-B24DS001,John Doe,B.Tech CSE,2,3,92.0,85.0,88.0,91.0
-B24DS002,Jane Smith,B.Tech CSE,2,3,78.0,65.0,38.0,72.0
+Roll_1,John Doe,B.Tech CSE,2,3,92.0,85.0,88.0,91.0
+Roll_2,Jane Smith,B.Tech CSE,2,3,78.0,65.0,38.0,72.0
 ```
 *(Jane Smith will be marked as Failed/Remediation Needed because her DAA mark is 38.0 < 40.0)*
 
