@@ -45,24 +45,17 @@ Evalia is a production-grade web application designed for academic departments, 
 
 ## Screenshots & Visual Verification
 
-### 1. Interactive Results Dashboard
-Real-time student evaluation roster featuring instant search, status filtering, and credit-weighted GPA calculations:
+### 1. Application Dashboard & Ingestion Interface
+Editorial interface featuring file ingestion dropzone, quick sample loading, and navigation:
 
-![Evalia Dashboard Overview](screenshots/dashboard_overview.png)
-
----
-
-### 2. Official Vector A4 Academic Transcript
-Single-page vector transcript generated with institutional verification header, credit hours table, credit points earned, cumulative weighted GPA, diagnostic remarks, and formal signature lines:
-
-![Vector A4 Academic Transcript](screenshots/academic_transcript_sample.png)
+![Evalia Dashboard](screenshots/dashboard.png)
 
 ---
 
-### 3. Cohort Performance & Curriculum Analytics
-Executive metrics summary, grade boundary distribution, and subject-wise credit weighting analytics:
+### 2. Evaluation Results Roster & Cohort Analytics
+Real-time student evaluation roster featuring instant search, status filtering, tie-aware ranking, and credit-weighted GPA calculations:
 
-![Class Performance Analytics](screenshots/class_analytics_report.png)
+![Evalia Evaluation Results](screenshots/Results.png)
 
 ---
 
