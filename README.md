@@ -6,12 +6,13 @@ Evalia is a production-grade web application designed for academic departments, 
 
 ## Table of Contents
 1. [Key Features](#key-features)
-2. [How to Run Locally](#how-to-run-locally)
-3. [How to Use the Application](#how-to-use-the-application)
-4. [CSV Data Schema & Guidelines](#csv-data-schema--guidelines)
-5. [Grading Scheme & Weighted GPA Formula](#grading-scheme--weighted-gpa-formula)
-6. [Automated Test Suite](#automated-test-suite)
-7. [Repository Structure](#repository-structure)
+2. [Screenshots & Visual Verification](#screenshots--visual-verification)
+3. [How to Run Locally](#how-to-run-locally)
+4. [How to Use the Application](#how-to-use-the-application)
+5. [CSV Data Schema & Guidelines](#csv-data-schema--guidelines)
+6. [Grading Scheme & Weighted GPA Formula](#grading-scheme--weighted-gpa-formula)
+7. [Automated Test Suite](#automated-test-suite)
+8. [Repository Structure](#repository-structure)
 
 ---
 
@@ -39,6 +40,29 @@ Evalia is a production-grade web application designed for academic departments, 
 - **Mobile-Responsive Editorial UI**:
   - Built to a clean editorial aesthetic (Inter typography, quiet tones, zero emojis).
   - Fully responsive on mobile phones and tablets with native touch-scroll data tables (`-webkit-overflow-scrolling: touch`), full-screen modal previews, and stacked touch controls.
+
+---
+
+## Screenshots & Visual Verification
+
+### 1. Interactive Results Dashboard
+Real-time student evaluation roster featuring instant search, status filtering, and credit-weighted GPA calculations:
+
+![Evalia Dashboard Overview](docs/screenshots/dashboard_overview.png)
+
+---
+
+### 2. Official Vector A4 Academic Transcript
+Single-page vector transcript generated with institutional verification header, credit hours table, credit points earned, cumulative weighted GPA, diagnostic remarks, and formal signature lines:
+
+![Vector A4 Academic Transcript](docs/screenshots/academic_transcript_sample.png)
+
+---
+
+### 3. Cohort Performance & Curriculum Analytics
+Executive metrics summary, grade boundary distribution, and subject-wise credit weighting analytics:
+
+![Class Performance Analytics](docs/screenshots/class_analytics_report.png)
 
 ---
 

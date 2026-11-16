@@ -621,4 +621,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Results remain hidden on initial load until the user explicitly clicks
   // "Load Sample Dataset" or uploads their own CSV file.
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('sample') === '1' || urlParams.get('autoload') === '1') {
+    loadSampleCohort().then(() => {
+      if (urlParams.get('credits') === '1' && creditsDrawerCard) {
+        creditsDrawerCard.style.display = 'block';
+      }
+    });
+  }
 });
