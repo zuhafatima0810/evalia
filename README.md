@@ -221,8 +221,8 @@ Evalia/
 ├── README.md                   # Complete documentation & usage guide
 ├── design.md                   # Design system tokens and specifications
 ├── sample_data/
-│   ├── students_marks.csv      # Standard 12-student K-12 sample dataset
-│   └── btech_cse_data_science.csv # 128-student university B.Tech dataset
+│   └── students_marks.csv      # Standard 12-student sample dataset
+├── screenshots/                # Application verification screenshots
 ├── static/
 │   ├── style.css               # Responsive design-system stylesheet
 │   └── app.js                  # Client-side state manager & interactive UI controller
