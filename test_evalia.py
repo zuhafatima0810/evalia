@@ -78,6 +78,7 @@ class TestEvaliaEngine(unittest.TestCase):
         # Single subject failure rule test (Ethan Bennett: Physics is 32)
         ethan = next(s for s in students if s["student_id"] == "EVA-2025-010")
         self.assertEqual(ethan["status"], "Failed")
+        self.assertEqual(ethan["grade"], "F")
         self.assertIn("Physics", ethan["failed_subjects"])
         self.assertIn("Remediation required", ethan["remarks"])
 

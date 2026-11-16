@@ -404,6 +404,14 @@ def calculate_grades_and_analytics(
         is_passed = len(failed_subjects) == 0
         status_text = "Passed" if is_passed else "Failed"
 
+        # If a student failed one or more courses, their overall awarded grade is F
+        if not is_passed:
+            final_grade = "F"
+            final_description = "Failing (Remediation Required)"
+        else:
+            final_grade = overall_grade_info["grade"]
+            final_description = overall_grade_info["description"]
+
         # Credit-weighted GPA calculations: sum(Grade_Points * Credits) / sum(Credits)
         gpa_10 = round(total_credit_points_10 / total_student_credits, 2) if total_student_credits > 0 else 0.0
         gpa_4 = round(total_credit_points_4 / total_student_credits, 2) if total_student_credits > 0 else 0.0
@@ -421,8 +429,8 @@ def calculate_grades_and_analytics(
             "total_marks": round(total_obtained, 2),
             "max_marks": int(total_possible_marks),
             "percentage": overall_pct,
-            "grade": overall_grade_info["grade"],
-            "grade_description": overall_grade_info["description"],
+            "grade": final_grade,
+            "grade_description": final_description,
             "gpa_10": gpa_10,
             "gpa_4": gpa_4,
             "status": status_text,
