@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evalia — Academic Evaluation & Transcript Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Ambient Atmospheric Gradient Orbs (Background Only) -->
+  <div class="ambient-orb orb-mint" aria-hidden="true"></div>
+  <div class="ambient-orb orb-peach" aria-hidden="true"></div>
+  <div class="ambient-orb orb-lavender" aria-hidden="true"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-crest" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9 8h6M9 12h5M9 16h6"/>
+          </svg>
+        </span>
+        <span class="brand-name">Evalia</span>
+        <span class="brand-badge">Academic Transcript Engine</span>
+      </div>
+
+      <nav class="nav-actions">
+        <a href="/download/sample-csv" class="nav-link" id="navDownloadSample">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download Sample CSV
+        </a>
+        <button type="button" class="btn btn-outline btn-sm" id="btnLoadSampleNav">
+          Load Sample Cohort
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <!-- Hero Editorial Band -->
+    <section class="hero-band">
+      <div class="hero-content">
+        <span class="eyebrow-tag">Automated Student Assessment & Analytics</span>
+        <h1 class="hero-title">Automated grade computation, vector transcripts, and cohort intelligence.</h1>
+        <p class="hero-subtitle">
+          Ingest multi-course grade rosters, calculate tie-aware cohort rankings, evaluate GPA boundaries, and generate vector A4 transcripts with consolidated analytics.
+        </p>
+      </div>
+    </section>
+
+    <!-- Error & Validation Banner -->
+    <div class="alert-banner" id="alertBanner" role="alert" style="display: none;">
+      <div class="alert-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="alert-body">
+        <div class="alert-title" id="alertTitle">CSV Ingestion Notice</div>
+        <div class="alert-message" id="alertMessage"></div>
+        <ul class="alert-error-list" id="alertErrorList" style="display: none;"></ul>
+      </div>
+      <button type="button" class="alert-close" id="alertCloseBtn" aria-label="Close notification">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- CSV Ingestion Section -->
+    <section class="section-upload">
+      <div class="dropzone-card" id="dropzoneCard">
+        <input type="file" id="csvFileInput" accept=".csv" class="visually-hidden">
+        
+        <div class="dropzone-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="12" y2="12"/>
+            <line x1="15" y1="15" x2="12" y2="12"/>
+          </svg>
+        </div>
+
+        <div class="dropzone-text">
+          <h2 class="dropzone-title">Upload student marks CSV roster</h2>
+          <p class="dropzone-desc">
+            Drag and drop your file here, or browse from your workstation. Dynamic subject columns, automated tie-aware ranking, and GPA calculation will process instantly.
+          </p>
+        </div>
+
+        <div class="dropzone-actions">
+          <button type="button" class="btn btn-primary" id="btnBrowseFile">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Select CSV File
+          </button>
+          
+          <button type="button" class="btn btn-outline" id="btnLoadSampleDirect">
+            Load Sample Dataset
+          </button>
+        </div>
+
+        <div class="dropzone-meta">
+          <span>Required Columns: <code>Student_ID</code>, <code>Name</code>, <code>Class</code></span>
+          <span class="meta-separator">•</span>
+          <span>Subjects: Detected dynamically</span>
+          <span class="meta-separator">•</span>
+          <span>Max File Size: 16 MB</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Workspace (Visible after CSV loaded) -->
+    <div id="resultsWorkspace" class="results-workspace" style="display: none;">
+      
+      <!-- Control Bar: Scale Switcher, Course Credits & Batch Exports -->
+      <section class="control-bar-card">
+        <div class="control-left">
+          <span class="control-label">Grading Scale:</span>
+          <div class="scale-selector" role="radiogroup" aria-label="GPA Scale Selector">
+            <button type="button" class="scale-btn active" data-scale="10.0" id="scaleBtn10">
+              10.0 Scale
+            </button>
+            <button type="button" class="scale-btn" data-scale="4.0" id="scaleBtn4">
+              4.0 Scale
+            </button>
+          </div>
+          <span class="scale-caption" id="scaleCaption">Standard 10.0 Scale (A+: 10, A: 9, B+: 8, B: 7, C: 6, D: 5, F: 0)</span>
+
+          <button type="button" class="btn btn-outline btn-sm btn-credits-toggle" id="btnToggleCreditsDrawer" title="Configure course credit weights for GPA calculation">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>Course Credits</span>
+            <span class="badge-credits-total" id="badgeCreditsTotal">-- Cr</span>
+          </button>
+        </div>
+
+        <div class="control-right">
+          <button type="button" class="btn btn-outline" id="btnClearResults" title="Dismiss results and return to upload">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Clear Results
+          </button>
+
+          <button type="button" class="btn btn-outline" id="btnExportExcel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <path d="M8 13h8M8 17h8M10 9h4"/>
+            </svg>
+            Export Excel Summary (.xlsx)
+          </button>
+
+          <button type="button" class="btn btn-primary" id="btnDownloadAllPdf">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download All Report Cards (.ZIP)
+          </button>
+        </div>
+      </section>
+
+      <!-- Course Credits Configuration Drawer -->
+      <section class="credits-drawer-card" id="creditsDrawerCard" style="display: none;">
+        <div class="credits-drawer-header">
+          <div>
+            <h3 class="credits-drawer-title">Course Credit Weight Allocation</h3>
+            <p class="credits-drawer-desc">Assign institutional credit hours to each course. Cumulative GPA is computed using standard weighted formula: &Sigma;(Grade Points &times; Credits) / &Sigma;(Credits).</p>
+          </div>
+          <div class="credits-drawer-actions">
+            <button type="button" class="btn btn-primary btn-sm" id="btnApplyCredits">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Apply Credits &amp; Recalculate
+            </button>
+          </div>
+        </div>
+
+        <div class="credits-inputs-grid" id="creditsInputsGrid">
+          <!-- Dynamically populated subject credit inputs -->
+        </div>
+      </section>
+
+      <!-- KPI Metrics Bar -->
+      <section class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-label">Total Enrolled Students</span>
+            <span class="metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </span>
+          </div>
+          <div class="metric-value" id="kpiTotalStudents">--</div>
+          <div class="metric-footer" id="kpiPassedFailedCount">-- Passed • -- Remediated</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-label">Cohort Average Score</span>
+            <span class="metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="14"/>
+              </svg>
+            </span>
+          </div>
+          <div class="metric-value" id="kpiClassAverage">--%</div>
+          <div class="metric-footer" id="kpiAvgGpa">Average GPA: --</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-label">Cohort Pass Rate</span>
+            <span class="metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </span>
+          </div>
+          <div class="metric-value" id="kpiPassRate">--%</div>
+          <div class="metric-footer">Institutional Threshold: 40% per subject</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-label">Top Performer</span>
+            <span class="metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="8" r="7"/>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+              </svg>
+            </span>
+          </div>
+          <div class="metric-value metric-value-sm" id="kpiTopPerformer">--</div>
+          <div class="metric-footer" id="kpiHighestScore">Cohort Rank #1 • --%</div>
+        </div>
+      </section>
+
+      <!-- Grade Distribution Section -->
+      <section class="distribution-card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Grade Boundary Distribution</h3>
+            <p class="card-subtitle">Cohort distribution across standard academic boundaries.</p>
+          </div>
+        </div>
+
+        <!-- Segmented bar -->
+        <div class="distribution-bar" id="distributionBar" role="progressbar" aria-label="Grade distribution bar"></div>
+
+        <!-- Breakdown cards grid -->
+        <div class="grade-chips-grid" id="gradeChipsGrid"></div>
+      </section>
+
+      <!-- Student Results Table Section -->
+      <section class="table-section-card">
+        <div class="table-controls-bar">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="search-icon" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by name, student ID, or class...">
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-label">Status Filter:</span>
+            <div class="filter-pills" role="radiogroup" aria-label="Status Filter">
+              <button type="button" class="filter-pill active" data-filter="all">All</button>
+              <button type="button" class="filter-pill" data-filter="Passed">Passed</button>
+              <button type="button" class="filter-pill" data-filter="Failed">Failed</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-responsive">
+          <table class="data-table" id="studentsTable">
+            <thead>
+              <tr id="tableHeaderRow">
+                <th class="col-center">Rank</th>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Class</th>
+                <!-- Dynamic subject headers inserted here -->
+                <th class="col-right">Total</th>
+                <th class="col-right">Percentage</th>
+                <th class="col-right" id="thGpa">GPA (10.0)</th>
+                <th class="col-center">Grade</th>
+                <th class="col-center">Status</th>
+                <th class="col-center">Official Transcript</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span id="tableRecordCount">Showing 0 students</span>
+          <span class="table-footer-legend">
+            <span class="badge-sample badge-pass">Passed: All subjects &gt;= 40%</span>
+            <span class="badge-sample badge-fail">Failed: Any subject &lt; 40%</span>
+          </span>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- PDF Preview Modal -->
+  <div class="modal-backdrop" id="pdfModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalStudentName">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title" id="modalStudentName">Official Academic Transcript</h3>
+          <span class="modal-subtitle" id="modalStudentMeta">Student ID • Class</span>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn btn-outline btn-sm" id="modalBtnNewTab" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Open in Tab
+          </a>
+          <a href="#" class="btn btn-primary btn-sm" id="modalBtnDownload">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF
+          </a>
+          <button type="button" class="modal-close" id="modalCloseBtn" aria-label="Close modal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <iframe id="pdfPreviewFrame" class="pdf-frame" title="Academic Transcript Preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editorial Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-name">Evalia</span>
+        <span class="footer-caption">Automated Student Assessment & Transcript Engine</span>
+      </div>
+      <div class="footer-meta">
+        <span>A4 Vector Report Card Generation</span>
+        <span class="meta-separator">•</span>
+        <span>OpenPyXL Consolidated Workbook</span>
+        <span class="meta-separator">•</span>
+        <span>Institutional Evaluation Standards</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
